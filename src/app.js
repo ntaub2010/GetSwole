@@ -1,3 +1,5 @@
+// version 2.3
+
 /**
  * Welcome to Pebble.js!
  *
@@ -6,9 +8,6 @@
 
 var UI = require('ui');
 var Vector2 = require('vector2');
-//var LBUI = require('lbui');
-
-//var exercise;
 
 var main = new UI.Menu({
   sections: [{
@@ -25,24 +24,6 @@ var main = new UI.Menu({
 });
 
 main.show();
-/*main.on('select', function(e) {
-    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
-  });*/
-
-
-
-/*var lower_body_menu = new UI.menu({
-        sections: [{
-          items: [{
-            title: 'Squats'
-          }, {
-            title: 'Deadlifts'
-          }, {
-            title: 'Leg Press'
-          }]
-        }]
-      });*/
 
 var lower_body_exercises = [ 
   {
@@ -60,16 +41,34 @@ var lower_body_menu = new UI.Menu({
           items: lower_body_exercises
         }]
       });
-
-var number_window = new UI.Window();
-var num_win_textfield = new UI.Text({
-  position: new Vector2(0, 50),
-  size: new Vector2(144, 30),
-  font: 'gothic-24-bold',
-  text: "Test",
-  textAlign: 'center'
-});
-number_window.add(num_win_textfield);
+function num_win(exer) {
+  var number_window = new UI.Window();
+  var num_win_title = new UI.Text({
+    position: new Vector2(0, 5),
+    size: new Vector2(144, 30),
+    font: 'gothic-24-bold',
+    text: exer,
+    textAlign: 'center'
+  });
+  var num_win_set = new UI.Text({
+    position: new Vector2(0, 35),
+    size: new Vector2(144, 30),
+    font: 'gothic-24-bold',
+    text: "Set",
+    textAlign: 'center'
+  });
+  var num_win_reps = new UI.Text({
+    position: new Vector2(0, 70),
+    size: new Vector2(144, 30),
+    font: 'gothic-24-bold',
+    text: "Reps",
+    textAlign: 'center'
+  });
+  number_window.add(num_win_title);
+  number_window.add(num_win_set);
+  number_window.add(num_win_reps);
+  return number_window;
+}
 
 function LB_chosen(exercise) {
       var squats_weight_options = [
@@ -89,7 +88,7 @@ function LB_chosen(exercise) {
   squats_weight.on('select', function(g) {
     switch(g.item.title) {
       case "Weightless":
-        number_window.show();
+        num_win(exercise).show();
         break;
       case "With Weights":
         break;
@@ -142,21 +141,6 @@ main.on('select', function(e) {
         subtitle: 'Subtitle Text'
       }]
     }]
-  });
-  menu.on('select', function(e) {
-    if(e.item.title == 'Upper Body') {
-      console.log('Upper Body');
-    }
-    if(e.item.title == 'Back') {
-      console.log('Lower Body');
-    }
-    if(e.item.title == 'Lower Body') {
-      
-      lower_body_menu.show();
-      console.log('Lower Body');
-    }
-    /*console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
   });
   menu.show();
 });*/
