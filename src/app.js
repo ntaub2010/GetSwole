@@ -5,8 +5,10 @@
  */
 
 var UI = require('ui');
-//var Vector2 = require('vector2');
+var Vector2 = require('vector2');
 //var LBUI = require('lbui');
+
+//var exercise;
 
 var main = new UI.Menu({
   sections: [{
@@ -21,6 +23,8 @@ var main = new UI.Menu({
   }] 
   
 });
+
+main.show();
 /*main.on('select', function(e) {
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
@@ -49,6 +53,51 @@ var lower_body_exercises = [
   title: "Leg Press"
 }
   ];
+
+var lower_body_menu = new UI.Menu({
+        sections: [{
+          title: "Lower Body Exercises",
+          items: lower_body_exercises
+        }]
+      });
+
+var number_window = new UI.Window();
+var num_win_textfield = new UI.Text({
+  position: new Vector2(0, 50),
+  size: new Vector2(144, 30),
+  font: 'gothic-24-bold',
+  text: "Test",
+  textAlign: 'center'
+});
+number_window.add(num_win_textfield);
+
+function LB_chosen(exercise) {
+      var squats_weight_options = [
+      {
+        title: "Weightless"
+      }, {
+        title: "With Weights"
+      }
+    ];
+    
+    var squats_weight = new UI.Menu({
+      sections: [{
+        title: exercise,
+        items: squats_weight_options
+      }]
+    });
+  squats_weight.on('select', function(g) {
+    switch(g.item.title) {
+      case "Weightless":
+        number_window.show();
+        break;
+      case "With Weights":
+        break;
+    }
+  });
+   return squats_weight;
+}
+
 main.on('select', function(e) {
   console.log("hello");
   
@@ -61,32 +110,25 @@ main.on('select', function(e) {
       break;
     case "Lower Body":
       console.log("Lower Body");
-      var lower_body_menu = new UI.Menu({
-        sections: [{
-          ttle: "Lower Body Exercises",
-          items: lower_body_exercises
-        }]
-      });
       lower_body_menu.show();
+        lower_body_menu.on('select', function(f) {
+          console.log("weights");
+          switch(f.item.title) {
+            case "Squats":
+              LB_chosen("Squats").show();
+              break;
+            case "Deadlifts":
+              LB_chosen("Deadlifts").show();
+              break;
+            case "Leg Press":
+              break;
+          }
+        });
       break;
   }
-  //main.subtitle(e.button);
-  
-   /* if(e.item.title == 'Upper Body') {
-      
-    }
-    if(e.item.title == 'Back') {
-      
-    }
-    if(e.item.title == "Lower Body") {
-      
-      //lower_body_menu.show();
-      console.log('The item is titled Lower Body');
-      
-    }*/
   });
 
-main.show();
+
 
 /*main.on('click', 'up', function(e) {
   var menu = new UI.Menu({
@@ -118,6 +160,7 @@ main.show();
   });
   menu.show();
 });*/
+
 
 /*main.on('click', 'select', function(e) {
   var wind = new UI.Window();
