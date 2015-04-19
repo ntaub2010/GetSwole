@@ -92,13 +92,13 @@ function num_win(exer) {
   number_window.add(num_win_reps);
   
   number_window.on('accelData', function accel(e) {
-	console.log("x: " + e.x);
+	console.log("x: " + e.accel.x);
 	if (number_window.first_accel !== null) {
-	  number_window.first_accel = e.y;
+	  number_window.first_accel = e.accel.y;
 	  return;
 	}
 
-	var delta = e.y - number_window.first_accel;
+	var delta = e.accel.y - number_window.first_accel;
 
 	if (delta >= rep_limit) {
 	  number_window.num_reps_text.text += 1;
