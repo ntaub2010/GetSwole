@@ -42,6 +42,23 @@ var lower_body_menu = new UI.Menu({
         }]
   });
 
+function choose_weight_num(ex) {
+  var weight_num_values = [
+    {
+      title: "100 lb"
+    }
+  ];
+  var weight_num = new UI.Menu({
+    sections: [{
+      title: ex,
+      items: weight_num_values
+    }]
+  });
+  return weight_num;
+}
+
+
+
 function num_win(exer) {
   //var first_accel;
   var number_window = new UI.Window({
@@ -96,7 +113,12 @@ function LB_chosen(exercise) {
         num_win(exercise).show();
         break;
       case "With Weights":
-        choose_weight_num(exercise).show();
+        var new_menu = choose_weight_num(exercise);
+        new_menu.show();
+        new_menu.on('select', function(i) {
+          num_win(exercise).show();
+        });
+        
         break;
     }
   });
