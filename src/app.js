@@ -57,7 +57,15 @@ var lower_body_menu = new UI.Menu({
 function choose_weight_num(ex) {
   var weight_num_values = [
     {
+      title: "90 lb"
+    }, {
+      title: "95 lb"
+    }, {
       title: "100 lb"
+    }, {
+      title: "105 lb"
+    }, {
+      title: "110 lb"
     }
   ];
   var weight_num = new UI.Menu({
@@ -69,49 +77,26 @@ function choose_weight_num(ex) {
   return weight_num;
 }
 
-
-
-function num_win(exer) {
-  //var first_accel;
-  var number_window = new UI.Window({
-    first_accel: null
-  });
-  var num_win_title = new UI.Text({
-    position: new Vector2(0, 5),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: exer,
-    textAlign: 'center'
-  });
-  var num_win_set = new UI.Text({
-    position: new Vector2(0, 35),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: "Set",
-    textAlign: 'center'
-  });
-  var num_win_reps = new UI.Text({
-    position: new Vector2(0, 70),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: "Reps",
-    textAlign: 'center'
-  });
-  number_window.add(num_win_title);
-  number_window.add(num_win_set);
-  number_window.add(num_win_reps);
-  
-  return number_window;
-}
-
 function set_number(ex) {
-  var set_values = [10];
-  for (var i = 0; i <= 9; i++) {
-    set_values[i] = i;
-  }
+  var set_values = [
+    {
+      title: "1"
+    }, {
+      title: "2"
+    }, {
+      title: "3"
+    }, {
+      title: "4"
+    }, {
+      title: "5"
+    }
+  ];
   var set_number_menu = new UI.Menu({
-    title: "Set",
-    items: set_values
+    sections: [{
+      title: "Set number",
+      items: set_values
+    }] 
+    
   });
   return set_number_menu;
 }
@@ -131,29 +116,42 @@ function LB_chosen(exercise) {
         items: squats_weight_options
       }]
     });
-  squats_weight.on('select', function(g) {
-    switch(g.item.title) {
-      case "Weightless":
-        num_win(exercise).show();
-        break;
-      case "With Weights":
-        var new_menu = choose_weight_num(exercise);
-        new_menu.show();
-        new_menu.on('select', function(i) {
-          var num_men = num_win(exercise);
-          num_men.show();
-          num_men.on('select', function(j) {
-            var set_men = set_number(exercise);
-            set_men.show();
-          });
-        });
-        
-        break;
-    }
-  });
    return squats_weight;
 }
 
+function reps(ex) {
+  var rep_values = [
+    {
+      title: "1"
+    }, {
+      title: "2"
+    }, {
+      title: "3"
+    }, {
+      title: "4"
+    }, {
+      title: "5"
+    }, {
+      title: "6"
+    }, {
+      title: "7"
+    }, {
+      title: "8"
+    }, {
+      title: "9"
+    }, {
+      title: "10"
+    }
+  ];
+  var rep_number_menu = new UI.Menu({
+    sections: [{
+      title: "Reps completed",
+      items: rep_values
+    }] 
+    
+  });
+  return rep_number_menu;
+}
 main.on('select', function(e) {
   console.log("hello");
   
@@ -171,10 +169,60 @@ main.on('select', function(e) {
           console.log("weights");
           switch(f.item.title) {
             case "Squats":
-              LB_chosen("Squats").show();
+              var squats_menu = LB_chosen("Squats");
+              squats_menu.show();
+              squats_menu.on('select', function(g) {
+                switch(g.item.title) {
+                  case "Weightless":
+                    var set_nums = set_number("Squats");
+                    set_nums.show();
+                    set_nums.on('select', function (i) {
+                      var rep_nums = reps("Squats");
+                      rep_nums.show();
+                    });
+                    break;
+                  case "With Weights":
+                    var weights_num_menu = choose_weight_num("Squats");
+                    weights_num_menu.show();
+                    weights_num_menu.on('select', function(h) {
+                      var set_nums = set_number("Squats");
+                      set_nums.show();
+                      set_nums.on('select', function (i) {
+                      var rep_nums = reps("Squats");
+                      rep_nums.show();
+                    });
+                    });
+                    break;
+                }
+              });
               break;
             case "Deadlifts":
-              LB_chosen("Deadlifts").show();
+              var deadlifts_menu = LB_chosen("Deadlifts");
+              deadlifts_menu.show();
+              deadlifts_menu.on('select', function(g) {
+                switch(g.item.title) {
+                  case "Weightless":
+                    var set_nums = set_number("Deadlifts");
+                    set_nums.show();
+                    set_nums.on('select', function (i) {
+                      var rep_nums = reps("Squats");
+                      rep_nums.show();
+                    });
+                    break;
+                  case "With Weights":
+                    var weights_num_menu = choose_weight_num("Deadlifts");
+                    weights_num_menu.show();
+                    weights_num_menu.on('select', function(h) {
+                      var set_nums = set_number("Deadlifts");
+                      set_nums.show();
+                      set_nums.on('select', function (i) {
+                      var rep_nums = reps("Squats");
+                      rep_nums.show();
+                    });
+                    });
+                    break;
+                }
+              });
               break;
             case "Leg Press":
               break;
