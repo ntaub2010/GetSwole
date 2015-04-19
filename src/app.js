@@ -1,4 +1,4 @@
-// version 2.3
+// version 3.0
 
 /**
  * Welcome to Pebble.js!
@@ -164,9 +164,9 @@ function reps(ex) {
 
 function print_time() {
   var time_now = new Date();
-  var secs = ((time_now.getTime())/1000)%60;
-  var min = ((time_now.getTime())/(1000*60)%60);
-  var hour = ((time_now.getTime())/(1000*60*60)%60) - 40;
+  var secs = (time_now.getTime()/1000)%60;
+  var min = (time_now.getTime()/(1000*60))%60;
+  var hour = ((time_now.getTime()/(1000*60*60))%24) - 5;
   var time = hour.toFixed(0) + ":" + min.toFixed(0) + ":" + secs.toFixed(0);
   return time;
 }
@@ -218,20 +218,30 @@ main.on('select', function(e) {
                     });
                     break;
                   case "With Weights":
+                    weight_choice = g.item.title;
                     var weights_num_menu = choose_weight_num("Squats");
                     weights_num_menu.show();
                     weights_num_menu.on('select', function(h) {
                       var set_nums = set_number("Squats");
                       set_nums.show();
                       set_nums.on('select', function (i) {
+                      var sets = i.item.title;
                       var rep_nums = reps("Squats");
                       rep_nums.show();
+                        rep_nums.on('select', function(j) {
+                        var reps = j.item.title;
+                        var time = print_time();
+                        var date_and_time = today + " " + time;
+                        var date_time = date_and_time;
+                        save(date_time, {exercise: exer, weight: weight_choice, sets: sets, reps: reps, time: time, date: today});
+                        });
                     });
-                    });
+                });
                     break;
                 }
               });
               break;
+                
             case "Deadlifts":
               var deadlifts_menu = LB_chosen("Deadlifts");
               deadlifts_menu.show();
@@ -267,44 +277,3 @@ main.on('select', function(e) {
       break;
   }
 });
-
-
-
-
-/*main.on('click', 'up', function(e) {
-  var menu = new UI.Menu({
-    sections: [{
-      items: [{
-        title: 'Pebble.js',
-        icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
-      }, {
-        title: 'Second Item',
-        subtitle: 'Subtitle Text'
-      }]
-    }]
-  });
-  menu.show();
-});*/
-
-
-/*main.on('click', 'select', function(e) {
-  var wind = new UI.Window();
-  var textfield = new UI.Text({
-    position: new Vector2(0, 50),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: 'Text Anywhere!',
-    textAlign: 'center'
-  });
-  wind.add(textfield);
-  wind.show();
-});*/
-
-/*main.on('click', 'down', function(e) {
-  var card = new UI.Card();
-  card.title('A Card');
-  card.subtitle('Is a Window');
-  card.body('The simplest window type in Pebble.js.');
-  card.show();
-});*/
