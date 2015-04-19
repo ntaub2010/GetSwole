@@ -40,9 +40,13 @@ var lower_body_menu = new UI.Menu({
           title: "Lower Body Exercises",
           items: lower_body_exercises
         }]
-      });
+  });
+
 function num_win(exer) {
-  var number_window = new UI.Window();
+  //var first_accel;
+  var number_window = new UI.Window({
+    first_accel: null
+  });
   var num_win_title = new UI.Text({
     position: new Vector2(0, 5),
     size: new Vector2(144, 30),
@@ -67,6 +71,7 @@ function num_win(exer) {
   number_window.add(num_win_title);
   number_window.add(num_win_set);
   number_window.add(num_win_reps);
+  
   return number_window;
 }
 
@@ -91,6 +96,7 @@ function LB_chosen(exercise) {
         num_win(exercise).show();
         break;
       case "With Weights":
+        choose_weight_num(exercise).show();
         break;
     }
   });
@@ -125,7 +131,8 @@ main.on('select', function(e) {
         });
       break;
   }
-  });
+});
+
 
 
 
