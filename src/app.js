@@ -5,16 +5,55 @@
  */
 
 var UI = require('ui');
-var Vector2 = require('vector2');
+//var Vector2 = require('vector2');
 
-var main = new UI.Card({
-  /*title: 'Pebble.js',
-  icon: 'images/menu_icon.png',
-  subtitle: 'Hello World!',
-  body: 'Press any button.'*/
+var main = new UI.Menu({
+  sections: [{
+    items: [{
+      title: 'Upper Body',
+    }, {
+      title: 'Back'
+    }, {
+      title: 'Lower Body'
+    }
+        ]
+  }] 
+  
 });
+/*main.on('select', function(e) {
+    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
+    console.log('The item is titled "' + e.item.title + '"');
+  });*/
 
 main.show();
+
+var lower_body_menu = new UI.menu({
+        sections: [{
+          items: [{
+            title: 'Squats'
+          }, {
+            title: 'Deadlifts'
+          }, {
+            title: 'Leg Press'
+          }]
+        }]
+      });
+main.on('click', 'select', function(e) {
+    if(e.item.title == 'Upper Body') {
+      
+    }
+    if(e.item.title == 'Back') {
+      
+    }
+    if(e.item.title == "Lower Body") {
+      
+      lower_body_menu.show();
+      console.log('The item is titled Lower Body');
+      
+    }
+    /*console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
+    console.log('The item is titled "' + e.item.title + '"');*/
+  });
 
 main.on('click', 'up', function(e) {
   var menu = new UI.Menu({
@@ -30,8 +69,19 @@ main.on('click', 'up', function(e) {
     }]
   });
   menu.on('select', function(e) {
-    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
+    if(e.item.title == 'Upper Body') {
+      
+    }
+    if(e.item.title == 'Back') {
+      
+    }
+    if(e.item.title == 'Lower Body') {
+      
+      lower_body_menu.show();
+      
+    }
+    /*console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
+    console.log('The item is titled "' + e.item.title + '"');*/
   });
   menu.show();
 });
