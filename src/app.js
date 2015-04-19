@@ -10,6 +10,7 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var Accel = require('ui/accel');
 Accel.init();
+var rep_limit = 1;
 
 var main = new UI.Menu({
   sections: [{
@@ -92,7 +93,7 @@ function num_win(exer) {
   number_window.add(num_win_reps);
   
   number_window.on('accelData', function accel(e) {
-	console.log("x: " + e.accel.x);
+	console.log("y: " + e.accel.y);
 	if (number_window.first_accel !== null) {
 	  number_window.first_accel = e.accel.y;
 	  return;
