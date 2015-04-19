@@ -92,22 +92,19 @@ function num_win(exer) {
   number_window.add(num_win_set);
   number_window.add(num_win_reps);
   
-  number_window.on('accelData', function accel(e) {
-	console.log("y: " + e.accel.y);
-	if (number_window.first_accel !== null) {
-	  number_window.first_accel = e.accel.y;
-	  return;
-	}
-
-	var delta = e.accel.y - number_window.first_accel;
-
-	if (delta >= rep_limit) {
-	  number_window.num_reps_text.text += 1;
-	}
-      }
-    );
-  
   return number_window;
+}
+
+function set_number(ex) {
+  var set_values = [10];
+  for (var i = 0; i <= 9; i++) {
+    set_values[i] = i;
+  }
+  var set_number_menu = new UI.Menu({
+    title: "Set",
+    items: set_values
+  });
+  return set_number_menu;
 }
 
 function LB_chosen(exercise) {
@@ -134,7 +131,12 @@ function LB_chosen(exercise) {
         var new_menu = choose_weight_num(exercise);
         new_menu.show();
         new_menu.on('select', function(i) {
-          num_win(exercise).show();
+          var num_men = num_win(exercise);
+          num_men.show();
+          num_men.on('select', function(j) {
+            var set_men = set_number(exercise);
+            set_men.show();
+          });
         });
         
         break;
