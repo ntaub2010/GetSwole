@@ -12,6 +12,15 @@ var Accel = require('ui/accel');
 Accel.init();
 var rep_limit = 1;
 
+function save(name_str, dictionary) {
+  // USE IT LIJKE save('player', {id: 1, score: 5});
+  Settings.data(name_str, dictionary);
+
+  
+}
+
+
+
 var main = new UI.Menu({
   sections: [{
     items: [{
