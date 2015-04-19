@@ -8,17 +8,26 @@
 
 var UI = require('ui');
 var Vector2 = require('vector2');
-var Accel = require('ui/accel');
-Accel.init();
-var rep_limit = 1;
-
+var Settings = require('settings');
 function save(name_str, dictionary) {
-  // USE IT LIJKE save('player', {id: 1, score: 5});
+  // USE IT LIKE save('player', {id: 1, score: 5});
   Settings.data(name_str, dictionary);
-
-  
 }
 
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+if(dd<10) {
+    dd='0'+dd;
+} 
+
+if(mm<10) {
+    mm='0'+mm;
+} 
+
+today = mm+'/'+dd+'/'+yyyy;
 
 
 var main = new UI.Menu({
@@ -152,6 +161,16 @@ function reps(ex) {
   });
   return rep_number_menu;
 }
+
+function print_time() {
+  var time_now = new Date();
+  var secs = ((time_now.getTime())/1000)%60;
+  var min = ((time_now.getTime())/(1000*60)%60);
+  var hour = ((time_now.getTime())/(1000*60*60)%60) - 40;
+  var time = hour.toFixed(0) + ":" + min.toFixed(0) + ":" + secs.toFixed(0);
+  return time;
+}
+
 main.on('select', function(e) {
   console.log("hello");
   
@@ -170,15 +189,32 @@ main.on('select', function(e) {
           switch(f.item.title) {
             case "Squats":
               var squats_menu = LB_chosen("Squats");
+              var exer = f.item.title;
               squats_menu.show();
               squats_menu.on('select', function(g) {
                 switch(g.item.title) {
                   case "Weightless":
+                    var weight_choice = g.item.title;
                     var set_nums = set_number("Squats");
                     set_nums.show();
                     set_nums.on('select', function (i) {
+                      var sets = i.item.title;
                       var rep_nums = reps("Squats");
                       rep_nums.show();
+                      rep_nums.on('select', function(j) {
+                        var reps = j.item.title;
+                        var time = print_time();
+                        var date_and_time = today + " " + time;
+                        var date_time = date_and_time;
+                        //var sets_and_reps = sets + "-" + reps;
+                        save(date_time, {exercise: exer, weight: weight_choice, sets: sets, reps: reps, time: time, date: today});
+                        console.log("This is where save should execute");
+                        //var workout_record = Settings.data('workout_record');
+                        //console.log(workout_record.time);
+                        var data = Settings.data();
+                        console.log(JSON.stringify(data));
+                        // date_and_time: date_and_time, , , sets_reps: sets_and_reps
+                      });
                     });
                     break;
                   case "With Weights":
